@@ -17,7 +17,7 @@
   --ink-soft: #545c6e;
   --line: rgba(11,30,58,0.10);
 
-  --font-display: 'Cormorant Garamond', serif;
+  --font-display: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 
   --radius-lg: 20px;
