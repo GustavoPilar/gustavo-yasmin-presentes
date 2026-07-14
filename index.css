@@ -142,7 +142,7 @@ button{ font-family: inherit; cursor: pointer; }
   animation: fadeUp 0.8s ease 0.18s both;
 }
 .hero-countdown{
-  margin-top: 0.5rem;
+  margin-top: 1.1rem;
   display: flex;
   align-items: center;
   gap: 0.4rem;
