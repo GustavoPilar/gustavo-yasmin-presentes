@@ -111,29 +111,39 @@ const GIFTS = [
 const CATEGORY_ORDER = ['Cozinha & Mesa', 'Eletroportáteis', 'Casa'];
 
 /* =========================================================
-   PERSISTÊNCIA (localStorage)
+   PERSISTÊNCIA (Supabase — tabela "gifts", acesso direto do
+   navegador, sem RLS/API própria, conforme solicitado)
 ========================================================= */
-const STORAGE_KEY = 'gy-wedding-gifts-2026';
+const SUPABASE_URL = 'https://itgesolagklifczhuoqe.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml0Z2Vzb2xhZ2tsaWZjemh1b3FlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQxNTIyNzQsImV4cCI6MjA5OTcyODI3NH0.pO1K1po9KTPlCkmHZJ42NYDTCTgmbkTMyMbXp-29cqo';
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-function loadState(){
-  try{
-    const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? JSON.parse(raw) : {};
-  }catch(e){
-    console.warn('Não foi possível ler os presentes salvos:', e);
+async function loadState(){
+  const { data, error } = await supabaseClient.from('gifts').select('*');
+  if(error){
+    console.warn('Não foi possível carregar os presentes:', error);
     return {};
   }
+  const result = {};
+  data.forEach(row => {
+    result[row.id] = { taken: true, name: row.name, date: row.date };
+  });
+  return result;
 }
 
-function saveState(state){
-  try{
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  }catch(e){
-    console.warn('Não foi possível salvar o presente:', e);
-  }
+async function markGiftTaken(id, name){
+  const { error } = await supabaseClient.from('gifts').upsert({ id, name, date: new Date().toISOString() });
+  if(error) console.warn('Não foi possível salvar o presente:', error);
+  return !error;
 }
 
-let state = loadState();
+async function unmarkGift(id){
+  const { error } = await supabaseClient.from('gifts').delete().eq('id', id);
+  if(error) console.warn('Não foi possível desmarcar o presente:', error);
+  return !error;
+}
+
+let state = {};
 
 /* =========================================================
    RENDER
@@ -268,15 +278,20 @@ unmarkClose.addEventListener('click', () => closeOverlay(unmarkOverlay));
 unmarkCancel.addEventListener('click', () => closeOverlay(unmarkOverlay));
 unmarkOverlay.addEventListener('click', (e) => { if(e.target === unmarkOverlay) closeOverlay(unmarkOverlay); });
 
-modalConfirm.addEventListener('click', () => {
+modalConfirm.addEventListener('click', async () => {
   const name = buyerNameInput.value.trim();
   if(!name){
     fieldError.classList.add('is-visible');
     buyerNameInput.focus();
     return;
   }
-  state[activeGiftId] = { taken: true, name, date: new Date().toISOString() };
-  saveState(state);
+  const date = new Date().toISOString();
+  const ok = await markGiftTaken(activeGiftId, name);
+  if(!ok){
+    showToast('Não foi possível salvar. Tente novamente.');
+    return;
+  }
+  state[activeGiftId] = { taken: true, name, date };
   closeOverlay(markOverlay);
   render();
   showToast(`Presente marcado — obrigado, ${name}! 💛`);
@@ -287,9 +302,13 @@ buyerNameInput.addEventListener('keydown', (e) => {
 });
 buyerNameInput.addEventListener('input', () => fieldError.classList.remove('is-visible'));
 
-unmarkConfirm.addEventListener('click', () => {
+unmarkConfirm.addEventListener('click', async () => {
+  const ok = await unmarkGift(activeGiftId);
+  if(!ok){
+    showToast('Não foi possível desmarcar. Tente novamente.');
+    return;
+  }
   delete state[activeGiftId];
-  saveState(state);
   closeOverlay(unmarkOverlay);
   render();
   showToast('Presente desmarcado.');
@@ -349,4 +368,7 @@ setInterval(updateCountdown, 1000);
 /* =========================================================
    INIT
 ========================================================= */
-render();
+(async () => {
+  state = await loadState();
+  render();
+})();
