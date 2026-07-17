@@ -201,17 +201,17 @@ function renderCard(gift){
       <span class="gift-icon">${iconSvg(gift.icon)}</span>
       <div class="gift-body">
         <p class="gift-name">${escapeHtml(gift.name)}</p>
-        <a class="gift-link" href="${gift.url}" target="_blank" rel="noopener noreferrer">
-          Ver na loja
-          <svg viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H9M17 7V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </a>
         <p class="gift-status ${taken ? 'taken' : ''}">
           <span class="dot"></span>
           ${taken ? `Escolhido por ${escapeHtml(entry.name)}` : 'Disponível'}
         </p>
         <div class="gift-actions">
+          <a class="gift-link" href="${gift.url}" target="_blank" rel="noopener noreferrer">
+            Ver na loja
+            <svg viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H9M17 7V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
           <button class="gift-btn ${taken ? 'taken' : ''}" type="button" data-action="toggle" data-id="${gift.id}">
-            ${taken ? 'Ver / desmarcar' : 'Marcar como presenteado'}
+            ${taken ? 'Desmarcar' : 'Marcar como presenteado'}
           </button>
         </div>
       </div>

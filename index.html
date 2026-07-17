@@ -12,19 +12,6 @@
 </head>
 <body>
 
-  <!-- Selo/monograma reutilizado como marca -->
-  <div class="seal-def" aria-hidden="true">
-    <svg width="0" height="0">
-      <defs>
-        <symbol id="seal" viewBox="0 0 120 120">
-          <rect x="3" y="3" width="114" height="114" fill="none" stroke="currentColor" stroke-width="1.4"/>
-          <rect x="10" y="10" width="100" height="100" fill="none" stroke="currentColor" stroke-width="0.6"/>
-          <text x="60" y="70" text-anchor="middle" font-family="'Inter', sans-serif" font-size="46" font-weight="600" fill="currentColor">GY</text>
-        </symbol>
-      </defs>
-    </svg>
-  </div>
-
   <!-- ===== HEADER ===== -->
   <header class="site-header">
     <div class="header-inner">
@@ -45,7 +32,6 @@
     <section class="hero">
       <div class="hero-ornament" aria-hidden="true"></div>
       <div class="hero-content">
-        <svg class="hero-seal" viewBox="0 0 120 120"><use href="#seal"/></svg>
         <p class="eyebrow">Lista de presentes</p>
         <h1>Gustavo <span class="amp">&amp;</span> Yasmin</h1>
         <p class="hero-date">
@@ -82,33 +68,22 @@
           Por fim, agradecemos a cada um que está fazendo parte da nossa história, todo o
           apoio e orações são importantes.
         </p>
-        <a href="#presentes" class="btn btn-primary">Ver lista de presentes</a>
+        <a href="#presentes" class="hero-scroll-hint">
+          Role para ver os presentes
+          <svg class="btn-scroll-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" aria-hidden="true"><path d="M12 4v15m0 0l-6-6m6 6l6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <div class="hero-divider hero-divider--hint" aria-hidden="true"></div>
       </div>
     </section>
 
     <!-- ===== HISTÓRIA / INFO ===== -->
     <section id="historia" class="info-section">
-      <div class="info-grid">
-        <div class="info-card">
-          <span class="info-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none"><path d="M12 21C12 21 4 15.5 4 9.8C4 6.6 6.5 4.5 9.2 4.5C10.9 4.5 12 5.6 12 5.6C12 5.6 13.1 4.5 14.8 4.5C17.5 4.5 20 6.6 20 9.8C20 15.5 12 21 12 21Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
-          </span>
-          <h3>Com carinho</h3>
-          <p>Cada presente escolhido a dedo para o início da nossa nova casa.</p>
-        </div>
-        <div class="info-card">
-          <span class="info-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none"><rect x="4" y="6" width="16" height="14" rx="1.5" stroke="currentColor" stroke-width="1.4"/><path d="M4 10H20" stroke="currentColor" stroke-width="1.4"/><path d="M8 4V7M16 4V7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
-          </span>
-          <h3>07 de setembro</h3>
-          <p>Guarde a data — mal podemos esperar para celebrar com vocês.</p>
-        </div>
         <div class="info-card">
           <span class="info-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none"><path d="M9 12L11 14L15.5 9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.4"/></svg>
           </span>
           <h3>Como funciona</h3>
-          <p>Escolha um item e marque-o como presenteado — assim ninguém repete o mimo.</p>
+          <p >Escolha um item da lista abaixo e clique no botão <span style="font-weight: bold;">"Marcar como presenteado"</span>, para marca-lo, assim ninguém repete a compra.</p>
         </div>
       </div>
     </section>
@@ -116,9 +91,8 @@
     <!-- ===== LISTA DE PRESENTES ===== -->
     <section id="presentes" class="gifts-section">
       <div class="section-heading">
-        <p class="eyebrow">Com todo carinho</p>
-        <h2>Lista de presentes</h2>
-        <p class="section-sub">Toque em um presente para ver os detalhes na loja, ou marque-o como já escolhido.</p>
+        <!-- <div class="section-divider" aria-hidden="true"></div> -->
+        <p class="section-sub" style="font-weight: bold; font-size: 1.1rem;">Toque em um presente para ver os detalhes na loja, ou, se já tiver comprado, apenas marque-o.</p>
       </div>
 
       <div class="gifts-progress" id="gifts-progress">
@@ -131,17 +105,11 @@
 
     <!-- ===== AGRADECIMENTO FINAL ===== -->
     <section class="thanks-section">
-      <svg class="thanks-seal" viewBox="0 0 120 120"><use href="#seal"/></svg>
-      <h2>Obrigado por estar conosco</h2>
-      <p>Sua presença é o maior presente. Se puder também nos ajudar com a lista, ficaremos eternamente gratos.</p>
+      <p class="footer-date">07 · 09 · 2026</p>
+      <p class="footer-signature">Feito com carinho para celebrar o começo da nossa história.</p>
     </section>
 
   </main>
-
-  <footer class="site-footer">
-    <svg class="footer-seal" viewBox="0 0 120 120"><use href="#seal"/></svg>
-    <p>Gustavo &amp; Yasmin · 07.09.2026</p>
-  </footer>
 
   <!-- ===== MODAL: MARCAR PRESENTE ===== -->
   <div class="modal-overlay" id="modal-overlay">
